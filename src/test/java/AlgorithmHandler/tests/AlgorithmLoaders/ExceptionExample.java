@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AlgorithmException {
+public class ExceptionExample {
     private ThrowsExceptionAlgorithm algo = new ThrowsExceptionAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();

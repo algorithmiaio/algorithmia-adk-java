@@ -1,9 +1,12 @@
 package com.algorithmia.algorithm;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 
 public class Handler<INPUT, OUTPUT, STATE> {
@@ -44,30 +47,31 @@ public class Handler<INPUT, OUTPUT, STATE> {
         }
     }
 
-    private void executeWithoutState(Function<INPUT, OUTPUT> func) {
-        INPUT req = in.getNextRequest();
-        while (req != null) {
-            OUTPUT output = func.apply(req);
+    private void executeWithoutState(Function<INPUT, OUTPUT> func, Stream<String> buffer) {
+
+        buffer.forEach((line) -> {
+            INPUT input = in.processRequest(line);
+            OUTPUT output = func.apply(input);
             out.writeToPipe(output);
-            req = in.getNextRequest();
-        }
+        });
     }
 
-    private void executeWithState(BiFunction<INPUT, STATE, OUTPUT> func) {
-        INPUT req = in.getNextRequest();
-        while (req != null) {
-            OUTPUT output = func.apply(req, state);
+    private void executeWithState(BiFunction<INPUT, STATE, OUTPUT> func, Stream<String> buffer) {
+        buffer.forEach((line) -> {
+            INPUT input = in.processRequest(line);
+            OUTPUT output = func.apply(input, state);
             out.writeToPipe(output);
-            req = in.getNextRequest();
-        }
+        });
     }
 
     private void execute() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Stream<String> buffer = reader.lines();
         if (this.applyWState != null && this.loadFunc != null) {
             load();
-            executeWithState( this.applyWState);
+            executeWithState(this.applyWState, buffer);
         } else if (this.apply != null) {
-            executeWithoutState(this.apply);
+            executeWithoutState(this.apply, buffer);
         } else {
             throw new RuntimeException("If using an load function with state, a load function must be defined as well.");
         }

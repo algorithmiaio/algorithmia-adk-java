@@ -1,6 +1,5 @@
 package AlgorithmHandler;
-import AlgorithmHandler.tests.AlgorithmLoaders.Base;
-import AlgorithmHandler.tests.AlgorithmLoaders.Binary;
+import AlgorithmHandler.tests.AlgorithmLoaders.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.*;
@@ -42,6 +41,27 @@ public class algorithmTests {
         Binary binary = new Binary();
         JsonObject result = binary.run();
         Assert.assertEquals(result, binary.expectedResponse);
+    }
+
+    @Test
+    public void AdvancedAlgorithmWithoutLoadingTest() throws Exception{
+        AdvancedWithoutLoad algo = new AdvancedWithoutLoad();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
+    }
+
+    @Test
+    public void AlgorithmExceptionTest() throws Exception{
+        ExceptionExample algo = new ExceptionExample();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
+    }
+
+    @Test
+    public void ComplexTypeTest() throws Exception{
+        ComplexType algo = new ComplexType();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result, algo.expectedResponse);
     }
 
 

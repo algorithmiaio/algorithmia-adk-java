@@ -2,10 +2,9 @@ package AlgorithmHandler.tests.AlgorithmLoaders;
 
 import AlgorithmHandler.algorithms.BasicAlgorithm;
 import com.algorithmia.algorithm.Handler;
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.junit.Assert;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -40,14 +39,14 @@ public class  Base {
     public JsonObject run() throws Exception {
 
         Handler handler = new Handler<>(algo.getClass(), algo::Foo);
-        String stringified = request.toString().concat("\n");
+        String stringified = request.toString();
         InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
         System.setIn(fakeIn);
         handler.serve();
 
         byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
         String rawData = new String(fifoBytes);
-        JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
-        return actualResponse;
+        JsonElement actualResponse = parser.parse(rawData);
+        return actualResponse.getAsJsonObject();
     }
 }
