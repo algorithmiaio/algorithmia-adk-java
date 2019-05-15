@@ -1,9 +1,9 @@
 
-name := "algorithmia-client"
+name := "algorithm-handler"
 
 organization := "com.algorithmia"
 
-version := "2.0.0"
+version := "1.0.0"
 
 autoScalaLibrary := false
 
@@ -19,10 +19,10 @@ libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpasyncclient" % "4.1.1",
   "commons-io" % "commons-io" % "2.5",
   "com.novocode" % "junit-interface" % "0.11" % "test->default",
-  "junit" % "junit" % "4.12" % "test"
+  "junit" % "junit" % "4.12"
 )
 
 // Disable using the Scala version in published artifacts
-crossPaths := false
+//crossPaths := false
 
-testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a"))
+testOptions += Tests.Argument(TestFrameworks.JUnit, "-av")

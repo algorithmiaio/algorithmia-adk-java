@@ -1,29 +1,26 @@
-package AlgorithmHandler.tests.AdvancedTests;
+package AlgorithmHandler.tests.AlgorithmLoaders;
 
-import AlgorithmHandler.algorithms.LoadingAlgorithm;
-import AlgorithmHandler.tests.HandlerTestBase;
+import AlgorithmHandler.algorithms.PrimitiveTypeAlgorithm;
 import com.algorithmia.algorithm.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.junit.Assert;
-import org.junit.Test;
+import com.google.gson.JsonParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AdvancedWithoutLoad extends HandlerTestBase {
-
-
-    private LoadingAlgorithm algo = new LoadingAlgorithm();
+public class PrimitiveType {
+    private PrimitiveTypeAlgorithm algo = new PrimitiveTypeAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
-    private JsonObject expectedResponse = GenerateOutput();
-
+    public JsonObject expectedResponse = GenerateOutput();
+    private JsonParser parser = new JsonParser();
+    private String FIFOPIPE = "/tmp/algoout";
 
     public JsonObject GenerateInput() {
-        LoadingAlgorithm.AlgoInput inputObj = algo.new AlgoInput("james", 25);
+        Float inputObj = 32.5f;
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
         object.add("data", gson.toJsonTree(inputObj));
@@ -32,14 +29,16 @@ public class AdvancedWithoutLoad extends HandlerTestBase {
 
     public JsonObject GenerateOutput() {
         JsonObject expectedResponse = new JsonObject();
-        expectedResponse.addProperty("message", "If using an load function with state, a load function must be defined as well.");
+        JsonObject metadata = new JsonObject();
+        metadata.addProperty("content_type", "text");
+        expectedResponse.add("metadata", metadata);
+        expectedResponse.addProperty("result", "Hello, the number is 32.5");
         return expectedResponse;
     }
 
-    @Test
-    public void runAlgorithm() throws Exception {
+    public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply);
+        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);
@@ -48,8 +47,7 @@ public class AdvancedWithoutLoad extends HandlerTestBase {
         byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
-        Assert.assertEquals(expectedResponse.get("message"), actualResponse.get("message"));
+        return actualResponse;
 
     }
-
 }

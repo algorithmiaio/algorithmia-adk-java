@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 class RequestHandler<ALGO_INPUT> {
 
-    private Scanner input = new Scanner(System.in);
+    private Scanner input;
     private JsonParser parser = new JsonParser();
     private Gson gson;
     private Class<ALGO_INPUT> inputClass;
@@ -19,6 +19,7 @@ class RequestHandler<ALGO_INPUT> {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(inputClass, new BetterDeserialization<>())
                 .create();
+        this.input = new Scanner(System.in);
     }
 
 

@@ -1,10 +1,10 @@
-package AlgorithmHandler.tests.AdvancedTests;
+package AlgorithmHandler.tests.AlgorithmLoaders;
 
-import AlgorithmHandler.algorithms.LoadingAlgorithm;
-import AlgorithmHandler.tests.HandlerTestBase;
+import AlgorithmHandler.algorithms.MatrixAlgorithm;
 import com.algorithmia.algorithm.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,16 +13,18 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
-public class ComplexType extends HandlerTestBase {
-
-    private LoadingAlgorithm algo = new LoadingAlgorithm();
+public class FormalAlgorithm {
+    private MatrixAlgorithm algo = new MatrixAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
-    private JsonObject expectedResponse = GenerateOutput();
+    public JsonObject expectedResponse = GenerateOutput();
+    private JsonParser parser = new JsonParser();
+    private String FIFOPIPE = "/tmp/algoout";
+
 
     public JsonObject GenerateInput() {
-        LoadingAlgorithm.AlgoInput inputObj = algo.new AlgoInput("james", 25);
+        MatrixAlgorithm.AlgoInput inputObj = algo.new AlgoInput(new Float[]{0.25f, 0.25f, 0.25f}, new Float[]{0.25f, 0.25f, 0.25f});
+        gson.toJsonTree(inputObj);
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
         object.add("data", gson.toJsonTree(inputObj));
@@ -30,20 +32,18 @@ public class ComplexType extends HandlerTestBase {
     }
 
     public JsonObject GenerateOutput() {
-        String outputObj = "Hello james you are 25 years old, and your model file is downloaded here /tmp/somefile";
+        MatrixAlgorithm.AlgoOutput outputObj = algo.new AlgoOutput(new Float[]{0.5f, 0.5f, 0.5f});
         JsonObject expectedResponse = new JsonObject();
         JsonObject metadata = new JsonObject();
-        metadata.addProperty("content_type", "text");
+        metadata.addProperty("content_type", "json");
         expectedResponse.add("metadata", metadata);
-        expectedResponse.addProperty("result", outputObj);
+        expectedResponse.add("result", gson.toJsonTree(outputObj));
         return expectedResponse;
     }
 
+    public JsonObject run() throws Exception {
+        Handler handler = new Handler<>(algo.getClass(), algo::matrixElmWiseAddition);
 
-    @Test
-    public void runAlgorithm() throws Exception {
-
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply, algo::DownloadModel);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);
@@ -52,7 +52,7 @@ public class ComplexType extends HandlerTestBase {
         byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
-        Assert.assertEquals(expectedResponse, actualResponse);
+        return actualResponse;
 
     }
 }
