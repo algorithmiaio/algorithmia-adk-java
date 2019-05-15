@@ -77,5 +77,12 @@ public class algorithmTests {
         Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
     }
 
+    @Test
+    public void MultipleRequestsTest() throws Exception{
+        MultipleRequests algo = new MultipleRequests();
+        String result = algo.run();
+        Assert.assertEquals(result, algo.expectedResponse);
+    }
+
 
 }
