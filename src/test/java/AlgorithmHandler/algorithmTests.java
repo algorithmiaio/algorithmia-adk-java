@@ -44,14 +44,14 @@ public class algorithmTests {
     }
 
     @Test
-    public void AdvancedAlgorithmWithoutLoadingTest() throws Exception{
+    public void AdvancedAlgorithmWithoutLoadingFailureTest() throws Exception{
         AdvancedWithoutLoad algo = new AdvancedWithoutLoad();
         JsonObject result = algo.run();
         Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
     }
 
     @Test
-    public void AlgorithmExceptionTest() throws Exception{
+    public void algorithmFailureTest() throws Exception{
         ExceptionExample algo = new ExceptionExample();
         JsonObject result = algo.run();
         Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
@@ -62,6 +62,20 @@ public class algorithmTests {
         ComplexType algo = new ComplexType();
         JsonObject result = algo.run();
         Assert.assertEquals(result, algo.expectedResponse);
+    }
+
+    @Test
+    public void InputTypeFailureTest() throws Exception{
+        InputTypeFailure algo = new InputTypeFailure();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
+    }
+
+    @Test
+    public void ReturnTypeFailureTest() throws Exception{
+        ReturnTypeFailure algo = new ReturnTypeFailure();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
     }
 
 
