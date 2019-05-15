@@ -1,4 +1,4 @@
-package AlgorithmHandler.algorithms;
+package algorithms;
 
 import java.io.File;
 import java.io.FileOutputStream;

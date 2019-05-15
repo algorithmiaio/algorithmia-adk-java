@@ -1,44 +1,39 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.PrimitiveTypeAlgorithm;
+import algorithms.FileHandleAlgorithm;
 import com.algorithmia.algorithm.Handler;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class PrimitiveType {
-    private PrimitiveTypeAlgorithm algo = new PrimitiveTypeAlgorithm();
-    private Gson gson = new Gson();
+public class ReturnTypeFailure {
+
+    private FileHandleAlgorithm algo = new FileHandleAlgorithm();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
     private JsonParser parser = new JsonParser();
     private String FIFOPIPE = "/tmp/algoout";
 
+
     public JsonObject GenerateInput() {
-        Float inputObj = 32.5f;
         JsonObject object = new JsonObject();
-        object.addProperty("content_type", "json");
-        object.add("data", gson.toJsonTree(inputObj));
+        object.addProperty("content_type", "text");
+        object.addProperty("data", "/tmp/somefile.txt");
         return object;
     }
 
     public JsonObject GenerateOutput() {
         JsonObject expectedResponse = new JsonObject();
-        JsonObject metadata = new JsonObject();
-        metadata.addProperty("content_type", "text");
-        expectedResponse.add("metadata", metadata);
-        expectedResponse.addProperty("result", "Hello, the number is 32.5");
+        expectedResponse.addProperty("message", "your output type was not successfully serializable.");
         return expectedResponse;
     }
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
+        Handler handler = new Handler<>(algo.getClass(), algo::foo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);
@@ -48,6 +43,5 @@ public class PrimitiveType {
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
         return actualResponse;
-
     }
 }

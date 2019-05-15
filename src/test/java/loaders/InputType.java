@@ -1,11 +1,10 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.BasicAlgorithm;
+import algorithms.BasicAlgorithm;
 import com.algorithmia.algorithm.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

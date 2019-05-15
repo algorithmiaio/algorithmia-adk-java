@@ -1,6 +1,6 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.ThrowsExceptionAlgorithm;
+import algorithms.ThrowsExceptionAlgorithm;
 import com.algorithmia.algorithm.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

@@ -1,55 +1,52 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.LoadingAlgorithm;
+import algorithms.BasicAlgorithm;
 import com.algorithmia.algorithm.Handler;
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ComplexType {
-    private LoadingAlgorithm algo = new LoadingAlgorithm();
-    private Gson gson = new Gson();
+public class  Base {
+    private BasicAlgorithm algo = new BasicAlgorithm();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
     private JsonParser parser = new JsonParser();
     private String FIFOPIPE = "/tmp/algoout";
 
-    public JsonObject GenerateInput() {
-        LoadingAlgorithm.AlgoInput inputObj = algo.new AlgoInput("james", 25);
+    private JsonObject GenerateInput() {
+        String inputObj = "james";
         JsonObject object = new JsonObject();
-        object.addProperty("content_type", "json");
-        object.add("data", gson.toJsonTree(inputObj));
+        object.addProperty("content_type", "text");
+        object.addProperty("data", inputObj);
+
         return object;
     }
 
-    public JsonObject GenerateOutput() {
-        String outputObj = "Hello james you are 25 years old, and your model file is downloaded here /tmp/somefile";
+    private JsonObject GenerateOutput() {
         JsonObject expectedResponse = new JsonObject();
         JsonObject metadata = new JsonObject();
         metadata.addProperty("content_type", "text");
         expectedResponse.add("metadata", metadata);
-        expectedResponse.addProperty("result", outputObj);
+        expectedResponse.addProperty("result", "Hello james");
         return expectedResponse;
     }
 
-
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply, algo::DownloadModel);
-        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-
+        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
+        String stringified = request.toString();
+        InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
         System.setIn(fakeIn);
         handler.serve();
 
         byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
         String rawData = new String(fifoBytes);
-        JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
-        return actualResponse;
+        JsonElement actualResponse = parser.parse(rawData);
+        return actualResponse.getAsJsonObject();
     }
 }

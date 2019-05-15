@@ -1,19 +1,18 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.LoadingAlgorithm;
+import algorithms.MatrixAlgorithm;
 import com.algorithmia.algorithm.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AdvancedWithoutLoad {
-    private LoadingAlgorithm algo = new LoadingAlgorithm();
+public class FormalAlgorithm {
+    private MatrixAlgorithm algo = new MatrixAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
@@ -22,7 +21,8 @@ public class AdvancedWithoutLoad {
 
 
     public JsonObject GenerateInput() {
-        LoadingAlgorithm.AlgoInput inputObj = algo.new AlgoInput("james", 25);
+        MatrixAlgorithm.AlgoInput inputObj = algo.new AlgoInput(new Float[]{0.25f, 0.25f, 0.25f}, new Float[]{0.25f, 0.25f, 0.25f});
+        gson.toJsonTree(inputObj);
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
         object.add("data", gson.toJsonTree(inputObj));
@@ -30,16 +30,19 @@ public class AdvancedWithoutLoad {
     }
 
     public JsonObject GenerateOutput() {
+        MatrixAlgorithm.AlgoOutput outputObj = algo.new AlgoOutput(new Float[]{0.5f, 0.5f, 0.5f});
         JsonObject expectedResponse = new JsonObject();
-        expectedResponse.addProperty("message", "If using an load function with state, a load function must be defined as well.");
+        JsonObject metadata = new JsonObject();
+        metadata.addProperty("content_type", "json");
+        expectedResponse.add("metadata", metadata);
+        expectedResponse.add("result", gson.toJsonTree(outputObj));
         return expectedResponse;
     }
 
     public JsonObject run() throws Exception {
+        Handler handler = new Handler<>(algo.getClass(), algo::matrixElmWiseAddition);
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply);
-        String stringified = request.toString();
-        InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
+        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);
         handler.serve();
@@ -48,5 +51,6 @@ public class AdvancedWithoutLoad {
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
         return actualResponse;
+
     }
 }

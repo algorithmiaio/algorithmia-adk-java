@@ -1,4 +1,4 @@
-package AlgorithmHandler.algorithms;
+package algorithms;
 
 import com.algorithmia.algorithm.Required;
 

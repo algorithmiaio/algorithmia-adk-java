@@ -1,5 +1,4 @@
-package AlgorithmHandler;
-import AlgorithmHandler.tests.AlgorithmLoaders.*;
+import loaders.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.*;

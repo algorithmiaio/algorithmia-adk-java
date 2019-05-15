@@ -1,7 +1,6 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.LoadingAlgorithm;
-import AlgorithmHandler.algorithms.MatrixAlgorithm;
+import algorithms.PrimitiveTypeAlgorithm;
 import com.algorithmia.algorithm.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,8 +11,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class InputTypeFailure {
-    private LoadingAlgorithm algo = new LoadingAlgorithm();
+public class PrimitiveType {
+    private PrimitiveTypeAlgorithm algo = new PrimitiveTypeAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
@@ -21,8 +20,7 @@ public class InputTypeFailure {
     private String FIFOPIPE = "/tmp/algoout";
 
     public JsonObject GenerateInput() {
-        MatrixAlgorithm tmp = new MatrixAlgorithm();
-        MatrixAlgorithm.AlgoInput inputObj = tmp.new AlgoInput(new Float[]{0.25f, 0.15f}, new Float[]{0.12f, -0.15f});
+        Float inputObj = 32.5f;
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
         object.add("data", gson.toJsonTree(inputObj));
@@ -31,14 +29,16 @@ public class InputTypeFailure {
 
     public JsonObject GenerateOutput() {
         JsonObject expectedResponse = new JsonObject();
-        expectedResponse.addProperty("message", "Missing required field in JSON input: name");
+        JsonObject metadata = new JsonObject();
+        metadata.addProperty("content_type", "text");
+        expectedResponse.add("metadata", metadata);
+        expectedResponse.addProperty("result", "Hello, the number is 32.5");
         return expectedResponse;
     }
 
-
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply, algo::DownloadModel);
+        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);
