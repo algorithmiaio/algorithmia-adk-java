@@ -23,6 +23,6 @@ libraryDependencies ++= Seq(
 )
 
 // Disable using the Scala version in published artifacts
-//crossPaths := false
+crossPaths := false
 
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-av")

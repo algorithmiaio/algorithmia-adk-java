@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * This static class and lambda interface to allow for the recovery of method names & original class names for method references.
+ * This static class and lambda interface to allow for the recovery of method names and original class names for method references.
  * Normally this information is lost due to erasure, but by enforcing the interface to be Serializable, we can recover the name and class, which allows us to perform reflection
  * on the primary classes apply method.
  */
