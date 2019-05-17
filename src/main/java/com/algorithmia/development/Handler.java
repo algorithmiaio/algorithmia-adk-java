@@ -93,7 +93,7 @@ public class Handler<INPUT, OUTPUT, STATE> {
                 return (Class<INPUT>) parameters[0];
             }
         }
-        throw new RuntimeException("Unable to find the method reference called " + methodName + " in the provided class.");
+        throw new RuntimeException("Unable to find the 'public' method reference called " + methodName + " in the provided class.");
     }
 
     public void setLoad(Supplier<STATE> func) {

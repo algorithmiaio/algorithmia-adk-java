@@ -15,7 +15,7 @@ import java.util.function.Function;
 // https://stackoverflow.com/questions/31178103/how-can-i-find-the-target-of-a-java8-method-reference
 // https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html
 
-public class ReflectionHelper {
+class ReflectionHelper {
 
 
     static <T, R> String getMethodName(
@@ -52,13 +52,13 @@ public class ReflectionHelper {
     }
 
     @FunctionalInterface
-    public interface DebuggableFunction<T, R> extends
+    interface DebuggableFunction<T, R> extends
             Serializable,
             Function<T, R> {
     }
 
     @FunctionalInterface
-    public interface DebuggableBifunction<T1, T2, R> extends
+    interface DebuggableBifunction<T1, T2, R> extends
             Serializable,
             BiFunction<T1, T2, R> {
     }

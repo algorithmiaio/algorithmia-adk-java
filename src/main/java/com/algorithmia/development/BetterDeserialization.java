@@ -11,9 +11,9 @@ import com.google.gson.JsonElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
-public class BetterDeserialization<T> implements JsonDeserializer<T> {
+class BetterDeserialization<T> implements JsonDeserializer<T> {
 
-    public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) {
+   public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) {
         T candidate = new Gson().fromJson(je, type);
 
         Field[] fields = candidate.getClass().getDeclaredFields();
