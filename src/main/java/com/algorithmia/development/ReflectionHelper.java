@@ -52,13 +52,13 @@ class ReflectionHelper {
     }
 
     @FunctionalInterface
-    interface DebuggableFunction<T, R> extends
+    public interface DebuggableFunction<T, R> extends
             Serializable,
             Function<T, R> {
     }
 
     @FunctionalInterface
-    interface DebuggableBifunction<T1, T2, R> extends
+    public interface DebuggableBifunction<T1, T2, R> extends
             Serializable,
             BiFunction<T1, T2, R> {
     }
