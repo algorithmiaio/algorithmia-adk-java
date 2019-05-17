@@ -2,7 +2,7 @@ package loaders;
 
 import algorithms.LoadingAlgorithm;
 import algorithms.MatrixAlgorithm;
-import com.algorithmia.algorithm.Handler;
+import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

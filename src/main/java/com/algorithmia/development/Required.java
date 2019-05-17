@@ -1,4 +1,4 @@
-package com.algorithmia.algorithm;
+package com.algorithmia.development;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

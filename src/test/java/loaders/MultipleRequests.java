@@ -1,9 +1,8 @@
 package loaders;
 
 import algorithms.BasicAlgorithm;
-import com.algorithmia.algorithm.Handler;
+import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 

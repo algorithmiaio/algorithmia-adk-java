@@ -3,7 +3,7 @@ name := "algorithm-handler"
 
 organization := "com.algorithmia"
 
-version := "1.0.0"
+version := "1.0.1"
 
 autoScalaLibrary := false
 

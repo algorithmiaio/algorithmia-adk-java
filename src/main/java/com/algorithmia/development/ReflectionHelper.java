@@ -1,4 +1,4 @@
-package com.algorithmia.algorithm;
+package com.algorithmia.development;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
