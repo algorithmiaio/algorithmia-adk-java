@@ -1,4 +1,4 @@
-package AlgorithmHandler.algorithms;
+package algorithms;
 
 public class PrimitiveTypeAlgorithm {
     public String Foo(Float input) throws RuntimeException {

@@ -1,14 +1,11 @@
-package com.algorithmia.algorithm;
+package com.algorithmia.development;
 
 import com.google.gson.*;
 import org.apache.commons.codec.binary.Base64;
 
-import java.util.Scanner;
-
 
 class RequestHandler<ALGO_INPUT> {
 
-    private Scanner input;
     private JsonParser parser = new JsonParser();
     private Gson gson;
     private Class<ALGO_INPUT> inputClass;
@@ -19,11 +16,10 @@ class RequestHandler<ALGO_INPUT> {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(inputClass, new BetterDeserialization<>())
                 .create();
-        this.input = new Scanner(System.in);
     }
 
 
-    private ALGO_INPUT processRequest(Request request) {
+    private ALGO_INPUT convertToType(Request request) {
         try {
             if (inputClass == byte[].class) {
                 return inputClass.cast(Base64.decodeBase64((request.data.getAsString())));
@@ -39,26 +35,19 @@ class RequestHandler<ALGO_INPUT> {
         } catch (ClassCastException | IllegalStateException ex) {
             String className = inputClass.getName();
             String req = request.data.toString();
-            throw new RuntimeException("unable to parse input into type " + className + " , with input " + req);
+            throw new RuntimeException("unable to parse reader into type " + className + " , with reader " + req);
         }
     }
 
 
-    ALGO_INPUT getNextRequest() {
-        String line = null;
-        try {
-            ALGO_INPUT result;
-            if (input.hasNextLine()) {
-                line = input.nextLine();
+    ALGO_INPUT processRequest(String line) {
+        try{
                 JsonObject json = parser.parse(line).getAsJsonObject();
                 String contentType = json.get("content_type").getAsString();
                 JsonElement data = json.get("data");
                 Request request = new Request(contentType, data);
-                result = processRequest(request);
+                ALGO_INPUT result = convertToType(request);
                 return result;
-            } else {
-                return null;
-            }
         } catch (JsonSyntaxException e) {
             throw new RuntimeException("unable to parse the request" + line + "as valid json");
         }

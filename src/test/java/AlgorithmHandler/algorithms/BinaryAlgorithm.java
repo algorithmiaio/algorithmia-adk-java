@@ -1,4 +1,4 @@
-package AlgorithmHandler.algorithms;
+package algorithms;
 
 public class BinaryAlgorithm {
     public String foo(byte[] input) {

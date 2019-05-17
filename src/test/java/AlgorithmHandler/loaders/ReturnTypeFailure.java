@@ -1,21 +1,17 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.MatrixAlgorithm;
-import com.algorithmia.algorithm.Handler;
-import com.google.gson.Gson;
+import algorithms.FileHandleAlgorithm;
+import com.algorithmia.development.Handler;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class FormalAlgorithm {
-    private MatrixAlgorithm algo = new MatrixAlgorithm();
-    private Gson gson = new Gson();
+public class ReturnTypeFailure {
+
+    private FileHandleAlgorithm algo = new FileHandleAlgorithm();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
     private JsonParser parser = new JsonParser();
@@ -23,27 +19,21 @@ public class FormalAlgorithm {
 
 
     public JsonObject GenerateInput() {
-        MatrixAlgorithm.AlgoInput inputObj = algo.new AlgoInput(new Float[]{0.25f, 0.25f, 0.25f}, new Float[]{0.25f, 0.25f, 0.25f});
-        gson.toJsonTree(inputObj);
         JsonObject object = new JsonObject();
-        object.addProperty("content_type", "json");
-        object.add("data", gson.toJsonTree(inputObj));
+        object.addProperty("content_type", "text");
+        object.addProperty("data", "/tmp/somefile.txt");
         return object;
     }
 
     public JsonObject GenerateOutput() {
-        MatrixAlgorithm.AlgoOutput outputObj = algo.new AlgoOutput(new Float[]{0.5f, 0.5f, 0.5f});
         JsonObject expectedResponse = new JsonObject();
-        JsonObject metadata = new JsonObject();
-        metadata.addProperty("content_type", "json");
-        expectedResponse.add("metadata", metadata);
-        expectedResponse.add("result", gson.toJsonTree(outputObj));
+        expectedResponse.addProperty("message", "your output type was not successfully serializable.");
         return expectedResponse;
     }
 
     public JsonObject run() throws Exception {
-        Handler handler = new Handler<>(algo.getClass(), algo::matrixElmWiseAddition);
 
+        Handler handler = new Handler<>(algo.getClass(), algo::foo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);
@@ -53,6 +43,5 @@ public class FormalAlgorithm {
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
         return actualResponse;
-
     }
 }

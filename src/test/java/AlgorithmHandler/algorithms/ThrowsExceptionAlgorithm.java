@@ -1,4 +1,4 @@
-package AlgorithmHandler.algorithms;
+package algorithms;
 
 public class ThrowsExceptionAlgorithm {
     public String foo(String input){

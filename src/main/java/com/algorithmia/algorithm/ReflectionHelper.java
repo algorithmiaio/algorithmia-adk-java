@@ -1,4 +1,4 @@
-package com.algorithmia.algorithm;
+package com.algorithmia.development;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
@@ -8,14 +8,14 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
- * This static class and lambda interface to allow for the recovery of method names & original class names for method references.
+ * This static class and lambda interface to allow for the recovery of method names and original class names for method references.
  * Normally this information is lost due to erasure, but by enforcing the interface to be Serializable, we can recover the name and class, which allows us to perform reflection
  * on the primary classes apply method.
  */
 // https://stackoverflow.com/questions/31178103/how-can-i-find-the-target-of-a-java8-method-reference
 // https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html
 
-public class ReflectionHelper {
+class ReflectionHelper {
 
 
     static <T, R> String getMethodName(

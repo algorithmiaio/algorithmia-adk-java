@@ -1,7 +1,7 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.BinaryAlgorithm;
-import com.algorithmia.algorithm.Handler;
+import algorithms.BinaryAlgorithm;
+import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

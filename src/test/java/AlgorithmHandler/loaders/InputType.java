@@ -1,47 +1,44 @@
-package AlgorithmHandler.tests.AlgorithmLoaders;
+package loaders;
 
-import AlgorithmHandler.algorithms.BasicAlgorithm;
-import com.algorithmia.algorithm.Handler;
+import algorithms.BasicAlgorithm;
+import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.junit.Assert;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class  Base {
+public class InputType {
     private BasicAlgorithm algo = new BasicAlgorithm();
+    private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
     private JsonParser parser = new JsonParser();
     private String FIFOPIPE = "/tmp/algoout";
 
-    private JsonObject GenerateInput() {
-        String inputObj = "james";
+
+    public JsonObject GenerateInput() {
+        Float[] inputObj = new Float[]{0.25f, 0.15f};
         JsonObject object = new JsonObject();
-        object.addProperty("content_type", "text");
-        object.addProperty("data", inputObj);
+        object.addProperty("content_type", "json");
+        object.add("data", gson.toJsonTree(inputObj));
 
         return object;
     }
 
-    private JsonObject GenerateOutput() {
+    public JsonObject GenerateOutput() {
         JsonObject expectedResponse = new JsonObject();
-        JsonObject metadata = new JsonObject();
-        metadata.addProperty("content_type", "text");
-        expectedResponse.add("metadata", metadata);
-        expectedResponse.addProperty("result", "Hello james");
+        expectedResponse.addProperty("message", "unable to parse input into type java.lang.String , with input [0.25,0.15]");
+        expectedResponse.addProperty("error_type", "class java.lang.RuntimeException");
         return expectedResponse;
     }
 
     public JsonObject run() throws Exception {
-
         Handler handler = new Handler<>(algo.getClass(), algo::Foo);
-        String stringified = request.toString().concat("\n");
-        InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
+        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
         System.setIn(fakeIn);
         handler.serve();
 
@@ -50,4 +47,5 @@ public class  Base {
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
         return actualResponse;
     }
+
 }
