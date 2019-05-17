@@ -1,5 +1,6 @@
 package com.algorithmia.development;
 
+
 import com.google.gson.JsonElement;
 
 class Request {

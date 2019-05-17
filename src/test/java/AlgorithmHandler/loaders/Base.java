@@ -1,4 +1,4 @@
-package loaders;
+package AlgorithmHandler.loaders;
 
 import algorithms.BasicAlgorithm;
 import com.algorithmia.development.Handler;

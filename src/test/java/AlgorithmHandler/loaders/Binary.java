@@ -1,5 +1,4 @@
-package loaders;
-
+package AlgorithmHandler.loaders;
 import algorithms.BinaryAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;

@@ -1,4 +1,5 @@
-package loaders;
+package AlgorithmHandler.loaders;
+
 
 import algorithms.LoadingAlgorithm;
 import algorithms.MatrixAlgorithm;

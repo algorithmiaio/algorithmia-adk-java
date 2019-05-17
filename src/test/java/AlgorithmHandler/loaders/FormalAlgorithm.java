@@ -1,4 +1,5 @@
-package loaders;
+package AlgorithmHandler.loaders;
+
 
 import algorithms.MatrixAlgorithm;
 import com.algorithmia.development.Handler;
