@@ -1,9 +1,9 @@
 
-name := "apply-handler"
+name := "algorithm-handler"
 
 organization := "com.algorithmia"
 
-version := "2.0.0"
+version := "1.1.0.rc2"
 
 autoScalaLibrary := false
 
