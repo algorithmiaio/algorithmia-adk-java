@@ -5,6 +5,7 @@ import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import structures.LoadingInput;
 
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +22,7 @@ public class ComplexType {
     private String FIFOPIPE = "/tmp/algoout";
 
     public JsonObject GenerateInput() {
-        LoadingAlgorithm.AlgoInput inputObj = algo.new AlgoInput("james", 25);
+        LoadingInput inputObj = new LoadingInput("james", 25);
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
         object.add("data", gson.toJsonTree(inputObj));
@@ -41,7 +42,7 @@ public class ComplexType {
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply, algo::DownloadModel);
+        Handler handler = new Handler<>(algo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);

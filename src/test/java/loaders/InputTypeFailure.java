@@ -6,6 +6,7 @@ import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import structures.MatrixInput;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -21,8 +22,7 @@ public class InputTypeFailure {
     private String FIFOPIPE = "/tmp/algoout";
 
     public JsonObject GenerateInput() {
-        MatrixAlgorithm tmp = new MatrixAlgorithm();
-        MatrixAlgorithm.AlgoInput inputObj = tmp.new AlgoInput(new Float[]{0.25f, 0.15f}, new Float[]{0.12f, -0.15f});
+        MatrixInput inputObj = new MatrixInput(new Float[]{0.25f, 0.15f}, new Float[]{0.12f, -0.15f});
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
         object.add("data", gson.toJsonTree(inputObj));
@@ -38,7 +38,7 @@ public class InputTypeFailure {
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Apply, algo::DownloadModel);
+        Handler handler = new Handler<>(algo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);

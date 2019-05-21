@@ -38,7 +38,7 @@ public class  Base {
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
+        Handler handler = new Handler<>(algo);
         String stringified = request.toString();
         InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
         System.setIn(fakeIn);

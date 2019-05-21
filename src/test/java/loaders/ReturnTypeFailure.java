@@ -33,7 +33,7 @@ public class ReturnTypeFailure {
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::foo);
+        Handler handler = new Handler<>(algo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);

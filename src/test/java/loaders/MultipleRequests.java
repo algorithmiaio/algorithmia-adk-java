@@ -49,7 +49,7 @@ public class MultipleRequests {
     }
     public String run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
+        Handler handler = new Handler<>(algo);
         String stringified = request.toString();
         String duplicatedInput = DuplicateRequests(stringified, 5);
         this.expectedResponse = DuplicateRequests(this.response.toString(), 5);

@@ -1,11 +1,13 @@
 package algorithms;
 
+import com.algorithmia.development.AlgorithmInterface;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class FileHandleAlgorithm {
-    public FileOutputStream foo(String localFile) {
+public class FileHandleAlgorithm implements AlgorithmInterface<String, FileOutputStream> {
+    public FileOutputStream apply(String localFile) {
         try {
             File file = new File(localFile);
             file.createNewFile();

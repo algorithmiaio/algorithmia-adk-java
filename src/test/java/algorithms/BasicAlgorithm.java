@@ -1,7 +1,9 @@
 package algorithms;
 
-public class BasicAlgorithm {
-    public String Foo(String input) {
+import com.algorithmia.development.AlgorithmInterface;
+
+public class BasicAlgorithm implements AlgorithmInterface<String, String> {
+    public String apply(String input) {
         return "Hello " + input;
     }
 }
