@@ -40,7 +40,7 @@ public class Handler<INPUT, OUTPUT> {
     private Class<INPUT> getInputClass(AlgorithmInterface<INPUT, OUTPUT> algoClass) {
         Method[] methods = algoClass.getClass().getMethods();
         for (Method method : methods) {
-            if (method.getName().equals(this.implementation.getClass().getMethods()[0].getName())
+            if (method.getName().equals("apply")
                     && method.getReturnType() != Object.class){
                 Class<?>[] parameters = method.getParameterTypes();
                 return (Class<INPUT>) parameters[0];
