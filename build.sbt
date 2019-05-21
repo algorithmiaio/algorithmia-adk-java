@@ -1,5 +1,5 @@
 
-name := "algorithm-handler"
+name := "apply-handler"
 
 organization := "com.algorithmia"
 

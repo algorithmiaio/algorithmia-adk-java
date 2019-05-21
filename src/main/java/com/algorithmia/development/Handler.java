@@ -25,8 +25,6 @@ public class Handler<INPUT, OUTPUT> {
             System.out.println("PIPE_INIT_COMPLETE");
             System.out.flush();
         }
-
-
     private void execute() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Stream<String> buffer = reader.lines();
@@ -55,7 +53,6 @@ public class Handler<INPUT, OUTPUT> {
             throw new RuntimeException("Unable to find the 'public' method reference called " + "'apply'" + " in the provided class.");
         }
     }
-
 
     public void serve() {
         try {
