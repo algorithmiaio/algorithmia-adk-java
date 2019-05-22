@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.MatrixAlgorithm;
+import algorithms.MatrixAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FormalAlgorithm {
-    private MatrixAlgorithm algo = new MatrixAlgorithm();
+    private MatrixAbstractAlgorithm algo = new MatrixAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();

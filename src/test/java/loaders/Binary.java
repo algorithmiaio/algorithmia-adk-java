@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.BinaryAlgorithm;
+import algorithms.BinaryAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 
 public class Binary {
 
-    private BinaryAlgorithm algo = new BinaryAlgorithm();
+    private BinaryAbstractAlgorithm algo = new BinaryAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonParser parser = new JsonParser();
     private String FIFOPIPE = "/tmp/algoout";

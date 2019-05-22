@@ -4,16 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
+import org.springframework.core.annotation.AnnotationUtils;
 
 
 public class Handler<INPUT, OUTPUT> {
 
-    private AlgorithmInterface<INPUT, OUTPUT> implementation;
+    private AbstractAlgorithm<INPUT, OUTPUT> implementation;
     private RequestHandler<INPUT> in;
     private ResponseHandler out = new ResponseHandler();
 
 
-    public Handler(AlgorithmInterface<INPUT, OUTPUT> implementation) {
+    public Handler(AbstractAlgorithm<INPUT, OUTPUT> implementation) {
         this.implementation = implementation;
         Class<INPUT> inputClass = getInputClass(implementation);
         this.in = new RequestHandler<>(inputClass);
@@ -37,17 +38,24 @@ public class Handler<INPUT, OUTPUT> {
         });
     }
 
-    private Class<INPUT> getInputClass(AlgorithmInterface<INPUT, OUTPUT> algoClass) {
+    private Class<INPUT> getInputClass(AbstractAlgorithm<INPUT, OUTPUT> algoClass) {
         Method[] methods = algoClass.getClass().getMethods();
+        Class<INPUT> bestGuess = null;
         for (Method method : methods) {
-            if (method.getName().equals("apply")
-                    && method.getReturnType() != Object.class){
-                Class<?>[] parameters = method.getParameterTypes();
-                return (Class<INPUT>) parameters[0];
+            if (AnnotationUtils.findAnnotation(method, FindApply.class) != null) {
+                bestGuess = (Class<INPUT>) method.getParameterTypes()[0];
+                if (method.getReturnType() != Object.class) {
+                    return bestGuess;
+                }
             }
         }
-        throw new RuntimeException("Unable to find the 'public' method reference called " + "'apply'" + " in the provided class.");
+        if (bestGuess != null) {
+            return bestGuess;
+        } else {
+            throw new RuntimeException("Unable to find the 'public' method reference called " + "'apply'" + " in the provided class.");
+        }
     }
+
 
     public void serve() {
         try {

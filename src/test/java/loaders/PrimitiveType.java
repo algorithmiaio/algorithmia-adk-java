@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.PrimitiveTypeAlgorithm;
+import algorithms.PrimitiveTypeAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class PrimitiveType {
-    private PrimitiveTypeAlgorithm algo = new PrimitiveTypeAlgorithm();
+    private PrimitiveTypeAbstractAlgorithm algo = new PrimitiveTypeAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();

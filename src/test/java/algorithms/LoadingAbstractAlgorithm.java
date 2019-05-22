@@ -1,12 +1,12 @@
 package algorithms;
 
-import com.algorithmia.development.AlgorithmInterface;
+import com.algorithmia.development.AbstractAlgorithm;
 import structures.*;
 
 import java.util.HashMap;
 
 
-public class LoadingAlgorithm implements AlgorithmInterface<LoadingInput, String> {
+public class LoadingAbstractAlgorithm extends AbstractAlgorithm<LoadingInput, String> {
 
     private HashMap<String, String> context = new HashMap<>();
 

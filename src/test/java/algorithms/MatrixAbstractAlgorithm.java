@@ -1,10 +1,10 @@
 package algorithms;
 
-import com.algorithmia.development.AlgorithmInterface;
+import com.algorithmia.development.AbstractAlgorithm;
 import structures.*;
 
 
-public class MatrixAlgorithm implements AlgorithmInterface<MatrixInput, MatrixOutput> {
+public class MatrixAbstractAlgorithm extends AbstractAlgorithm<MatrixInput, MatrixOutput> {
 
     public MatrixOutput apply(MatrixInput input) throws RuntimeException {
         if (input.matrix.dimCheck()) {

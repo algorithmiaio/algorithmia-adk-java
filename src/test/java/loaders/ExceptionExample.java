@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.ThrowsExceptionAlgorithm;
+import algorithms.ThrowsExceptionAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ExceptionExample {
-    private ThrowsExceptionAlgorithm algo = new ThrowsExceptionAlgorithm();
+    private ThrowsExceptionAbstractAlgorithm algo = new ThrowsExceptionAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
