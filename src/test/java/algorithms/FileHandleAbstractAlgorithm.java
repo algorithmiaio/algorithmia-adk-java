@@ -1,6 +1,7 @@
 package algorithms;
 
 import com.algorithmia.development.AbstractAlgorithm;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
