@@ -5,7 +5,6 @@ organization := "com.algorithmia"
 
 version := "1.2.0"
 
-
 autoScalaLibrary := false
 
 // More compiler warnings
