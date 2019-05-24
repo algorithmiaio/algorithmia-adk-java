@@ -1,10 +1,12 @@
 package loaders;
 
-import algorithms.MatrixAlgorithm;
+import algorithms.MatrixAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import structures.MatrixInput;
+import structures.MatrixOutput;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -12,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FormalAlgorithm {
-    private MatrixAlgorithm algo = new MatrixAlgorithm();
+    private MatrixAbstractAlgorithm algo = new MatrixAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
@@ -21,7 +23,7 @@ public class FormalAlgorithm {
 
 
     public JsonObject GenerateInput() {
-        MatrixAlgorithm.AlgoInput inputObj = algo.new AlgoInput(new Float[]{0.25f, 0.25f, 0.25f}, new Float[]{0.25f, 0.25f, 0.25f});
+        MatrixInput inputObj = new MatrixInput(new Float[]{0.25f, 0.25f, 0.25f}, new Float[]{0.25f, 0.25f, 0.25f});
         gson.toJsonTree(inputObj);
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "json");
@@ -30,7 +32,7 @@ public class FormalAlgorithm {
     }
 
     public JsonObject GenerateOutput() {
-        MatrixAlgorithm.AlgoOutput outputObj = algo.new AlgoOutput(new Float[]{0.5f, 0.5f, 0.5f});
+        MatrixOutput outputObj = new MatrixOutput(new Float[]{0.5f, 0.5f, 0.5f});
         JsonObject expectedResponse = new JsonObject();
         JsonObject metadata = new JsonObject();
         metadata.addProperty("content_type", "json");
@@ -40,7 +42,7 @@ public class FormalAlgorithm {
     }
 
     public JsonObject run() throws Exception {
-        Handler handler = new Handler<>(algo.getClass(), algo::matrixElmWiseAddition);
+        Handler handler = new Handler<>(algo);
 
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 

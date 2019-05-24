@@ -42,12 +42,6 @@ public class algorithmTests {
         Assert.assertEquals(result, binary.expectedResponse);
     }
 
-    @Test
-    public void AdvancedAlgorithmWithoutLoadingFailureTest() throws Exception{
-        AdvancedWithoutLoad algo = new AdvancedWithoutLoad();
-        JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
-    }
 
     @Test
     public void algorithmFailureTest() throws Exception{

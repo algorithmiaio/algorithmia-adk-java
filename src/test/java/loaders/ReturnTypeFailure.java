@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.FileHandleAlgorithm;
+import algorithms.FileHandleAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class ReturnTypeFailure {
 
-    private FileHandleAlgorithm algo = new FileHandleAlgorithm();
+    private FileHandleAbstractAlgorithm algo = new FileHandleAbstractAlgorithm();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
     private JsonParser parser = new JsonParser();
@@ -33,7 +33,7 @@ public class ReturnTypeFailure {
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::foo);
+        Handler handler = new Handler<>(algo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
 
         System.setIn(fakeIn);

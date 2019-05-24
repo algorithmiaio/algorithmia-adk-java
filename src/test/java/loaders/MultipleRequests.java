@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.BasicAlgorithm;
+import algorithms.BasicAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class MultipleRequests {
-    private BasicAlgorithm algo = new BasicAlgorithm();
+    private BasicAbstractAlgorithm algo = new BasicAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonParser parser = new JsonParser();
     private String FIFOPIPE = "/tmp/algoout";
@@ -49,7 +49,7 @@ public class MultipleRequests {
     }
     public String run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
+        Handler handler = new Handler<>(algo);
         String stringified = request.toString();
         String duplicatedInput = DuplicateRequests(stringified, 5);
         this.expectedResponse = DuplicateRequests(this.response.toString(), 5);

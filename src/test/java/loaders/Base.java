@@ -1,6 +1,6 @@
 package loaders;
 
-import algorithms.BasicAlgorithm;
+import algorithms.BasicAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class  Base {
-    private BasicAlgorithm algo = new BasicAlgorithm();
+    private BasicAbstractAlgorithm algo = new BasicAbstractAlgorithm();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
     private JsonParser parser = new JsonParser();
@@ -38,7 +38,7 @@ public class  Base {
 
     public JsonObject run() throws Exception {
 
-        Handler handler = new Handler<>(algo.getClass(), algo::Foo);
+        Handler handler = new Handler<>(algo);
         String stringified = request.toString();
         InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
         System.setIn(fakeIn);
