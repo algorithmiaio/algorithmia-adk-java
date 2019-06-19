@@ -3,12 +3,10 @@ package loaders;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
-import org.javaync.io.AsyncFiles;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.*;
 
 public class AbstractLoader {
     JsonParser parser = new JsonParser();
