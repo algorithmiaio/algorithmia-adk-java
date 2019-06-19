@@ -30,6 +30,7 @@ public class Handler<INPUT, OUTPUT> {
         Stream<String> buffer = reader.lines();
         load();
         buffer.forEach((line) -> {
+            out.preparePipe();
             INPUT input = in.processRequest(line);
             OUTPUT output = implementation.apply(input);
             out.writeToPipe(output);
@@ -59,6 +60,7 @@ public class Handler<INPUT, OUTPUT> {
         try {
             execute();
         } catch (RuntimeException e) {
+            out.preparePipe();
             out.writeErrorToPipe(e);
         }
     }

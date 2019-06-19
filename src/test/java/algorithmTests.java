@@ -12,9 +12,11 @@ public class algorithmTests {
 
     protected JsonParser parser = new JsonParser();
 
+
     @Before
     public void IntializePipe() throws IOException, InterruptedException {
-        Process p = Runtime.getRuntime().exec("touch  " + FIFOPIPE);
+        String mode = "Oo644";
+        Process p = Runtime.getRuntime().exec("mkfifo " + " -m " + mode +" "+ FIFOPIPE);
         p.waitFor();
     }
 
