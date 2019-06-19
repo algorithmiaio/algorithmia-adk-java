@@ -25,6 +25,7 @@ public class Handler<INPUT, OUTPUT> {
             System.out.println("PIPE_INIT_COMPLETE");
             System.out.flush();
         }
+
     private void execute() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Stream<String> buffer = reader.lines();
