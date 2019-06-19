@@ -4,7 +4,10 @@ import algorithms.FileHandleAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
+
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,14 +35,12 @@ public class ReturnTypeFailure {
     }
 
     public JsonObject run() throws Exception {
-
         Handler handler = new Handler<>(algo);
         InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-
         System.setIn(fakeIn);
+        FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
-
-        byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
+        byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
         return actualResponse;
