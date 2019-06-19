@@ -21,6 +21,9 @@ sources in (Compile, doc) := Seq.empty
 
 publishArtifact in (Compile, packageDoc) := false
 
+
+
+
 libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.6.2",
   "org.apache.httpcomponents" % "httpasyncclient" % "4.1.1",
