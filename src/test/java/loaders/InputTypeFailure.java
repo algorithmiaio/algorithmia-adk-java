@@ -8,13 +8,9 @@ import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import structures.MatrixInput;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class InputTypeFailure {
+public class InputTypeFailure extends AbstractLoader{
     private LoadingAbstractAlgorithm algo = new LoadingAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
@@ -39,8 +35,7 @@ public class InputTypeFailure {
 
     public JsonObject run() throws Exception {
         Handler handler = new Handler<>(algo);
-        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-        System.setIn(fakeIn);
+        prepareInput(request);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);

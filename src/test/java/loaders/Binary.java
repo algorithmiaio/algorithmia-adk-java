@@ -46,7 +46,10 @@ public class Binary extends AbstractLoader{
     public JsonObject run() throws Exception {
         prepareInput(request);
         Handler handler = new Handler<>(algo);
+        FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
-        return getOutput();
+        byte[] fifoBytes = IOUtils.toByteArray(inputStream);
+        String rawData = new String(fifoBytes);
+        return parser.parse(rawData).getAsJsonObject();
     }
 }

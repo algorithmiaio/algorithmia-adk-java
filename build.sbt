@@ -20,7 +20,6 @@ libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpasyncclient" % "4.1.1",
   "commons-io" % "commons-io" % "2.5",
   "com.novocode" % "junit-interface" % "0.11" % "test->default",
-  "junit" % "junit" % "4.12",
   "org.springframework" % "spring-core" % "5.1.7.RELEASE"
 )
 

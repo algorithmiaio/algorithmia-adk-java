@@ -4,16 +4,11 @@ import algorithms.LoadingAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import structures.LoadingInput;
 
-
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
+
 
 public class ComplexType extends AbstractLoader{
     private LoadingAbstractAlgorithm algo = new LoadingAbstractAlgorithm();
@@ -43,7 +38,10 @@ public class ComplexType extends AbstractLoader{
     public JsonObject run() throws Exception {
         prepareInput(request);
         Handler handler = new Handler<>(algo);
+        FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
-        return getOutput();
+        byte[] fifoBytes = IOUtils.toByteArray(inputStream);
+        String rawData = new String(fifoBytes);
+        return parser.parse(rawData).getAsJsonObject();
     }
 }

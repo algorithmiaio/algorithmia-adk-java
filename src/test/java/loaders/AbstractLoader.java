@@ -1,24 +1,15 @@
 package loaders;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class AbstractLoader {
     JsonParser parser = new JsonParser();
     String FIFOPIPE = "/tmp/algoout";
-
-
-    JsonObject getOutput() throws Exception {
-        Path in = Paths.get(FIFOPIPE);
-        byte[] bytesCf = IOUtils.toByteArray(new FileInputStream(new File(FIFOPIPE)));
-        String rawData = new String(bytesCf);
-        return parser.parse(rawData).getAsJsonObject();
-    }
+    Gson gson = new Gson();
 
 
     void prepareInput(JsonObject input){

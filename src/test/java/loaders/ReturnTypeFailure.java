@@ -9,10 +9,8 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class ReturnTypeFailure {
+public class ReturnTypeFailure extends AbstractLoader{
 
     private FileHandleAbstractAlgorithm algo = new FileHandleAbstractAlgorithm();
     private JsonObject request = GenerateInput();
@@ -36,8 +34,7 @@ public class ReturnTypeFailure {
 
     public JsonObject run() throws Exception {
         Handler handler = new Handler<>(algo);
-        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-        System.setIn(fakeIn);
+        prepareInput(request);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);

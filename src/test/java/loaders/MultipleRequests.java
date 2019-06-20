@@ -13,11 +13,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class MultipleRequests {
+public class MultipleRequests extends AbstractLoader{
     private BasicAbstractAlgorithm algo = new BasicAbstractAlgorithm();
-    private Gson gson = new Gson();
-    private JsonParser parser = new JsonParser();
-    private String FIFOPIPE = "/tmp/algoout";
     private JsonObject request = GenerateInput();
     private JsonObject response = GenerateOutput();
     public String expectedResponse;

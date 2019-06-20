@@ -10,16 +10,11 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class PrimitiveType {
+public class PrimitiveType extends AbstractLoader{
     private PrimitiveTypeAbstractAlgorithm algo = new PrimitiveTypeAbstractAlgorithm();
-    private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
-    private JsonParser parser = new JsonParser();
-    private String FIFOPIPE = "/tmp/algoout";
 
     public JsonObject GenerateInput() {
         Float inputObj = 32.5f;
@@ -40,8 +35,7 @@ public class PrimitiveType {
 
     public JsonObject run() throws Exception {
         Handler handler = new Handler<>(algo);
-        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-        System.setIn(fakeIn);
+        prepareInput(request);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);
