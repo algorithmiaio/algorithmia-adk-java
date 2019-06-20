@@ -6,6 +6,10 @@ publishTo := {
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
 }
 
+publishMavenStyle := true
+
+credentials += Credentials(Path.userHome/ ".sbt" / ".credentials")
+
 // Stuff sonatype wants
 pomExtra := (
   <url>http://www.github.com/algorithmiaio/algorithm-handler-java</url>

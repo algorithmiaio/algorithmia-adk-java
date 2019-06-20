@@ -23,7 +23,7 @@ class SerializableException<T extends RuntimeException> {
     String getJsonOutput() {
         JsonObject node = new JsonObject();
         node.addProperty("message", this.message);
-        node.addProperty("stack_trace", this.stackTrace);
+        node.addProperty("stacktrace", this.stackTrace);
         node.addProperty("error_type", this.errorType);
         return node.toString();
     }
