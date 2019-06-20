@@ -8,21 +8,20 @@ import java.io.IOException;
 
 @FixMethodOrder()
 public class algorithmTests {
-    protected String FIFOPIPE = "/tmp/algoout";
+    protected String SpoofedFIFOPIPE = "/tmp/algoout";
 
     protected JsonParser parser = new JsonParser();
 
 
     @Before
     public void IntializePipe() throws IOException, InterruptedException {
-        String mode = "Oo644";
-        Process p = Runtime.getRuntime().exec("mkfifo " + " -m " + mode +" "+ FIFOPIPE);
+        Process p = Runtime.getRuntime().exec("touch " + SpoofedFIFOPIPE);
         p.waitFor();
     }
 
     @After
     public void TeardownPipe() {
-        File pipe = new File(FIFOPIPE);
+        File pipe = new File(SpoofedFIFOPIPE);
         System.setIn(System.in);
         pipe.delete();
     }
