@@ -3,8 +3,7 @@ name := "algorithm-handler"
 
 organization := "com.algorithmia"
 
-version := "1.2.1"
-
+version := "1.2.1.rc3"
 
 
 autoScalaLibrary := false
@@ -15,9 +14,6 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xlint")
 javacOptions ++= Seq("-source", "8", "-target", "8")
 
 javacOptions in doc := Seq("-source", "8")
-
-//sources in (Compile, doc) := Seq.empty
-//publishArtifact in (Compile, packageDoc) := false
 
 libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.6.2",
