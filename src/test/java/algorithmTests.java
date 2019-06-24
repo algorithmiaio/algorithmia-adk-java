@@ -43,14 +43,6 @@ public class algorithmTests {
         Assert.assertEquals(result, binary.expectedResponse);
     }
 
-
-    @Test
-    public void algorithmFailureTest() throws Exception{
-        ExceptionExample algo = new ExceptionExample();
-        JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
-    }
-
     @Test
     public void ComplexTypeTest() throws Exception{
         ComplexType algo = new ComplexType();
@@ -59,24 +51,32 @@ public class algorithmTests {
     }
 
     @Test
+    public void MultipleRequestsTest() throws Exception{
+        MultipleRequests algo = new MultipleRequests();
+        String result = algo.run();
+        Assert.assertEquals(result, algo.expectedResponse);
+    }
+
+
+    @Test
+    public void algorithmFailureTest() throws Exception{
+        ExceptionExample algo = new ExceptionExample();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result.get("error").getAsJsonObject().get("message"), algo.expectedResponse.get("message"));
+    }
+
+    @Test
     public void InputTypeFailureTest() throws Exception{
         InputTypeFailure algo = new InputTypeFailure();
         JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
+        Assert.assertEquals(result.get("error").getAsJsonObject().get("message"), algo.expectedResponse.get("message"));
     }
 
     @Test
     public void ReturnTypeFailureTest() throws Exception{
         ReturnTypeFailure algo = new ReturnTypeFailure();
         JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
-    }
-
-    @Test
-    public void MultipleRequestsTest() throws Exception{
-        MultipleRequests algo = new MultipleRequests();
-        String result = algo.run();
-        Assert.assertEquals(result, algo.expectedResponse);
+        Assert.assertEquals(result.get("error").getAsJsonObject().get("message"), algo.expectedResponse.get("message"));
     }
 
 

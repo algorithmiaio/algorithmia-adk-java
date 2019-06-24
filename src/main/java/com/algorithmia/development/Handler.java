@@ -25,19 +25,6 @@ public class Handler<INPUT, OUTPUT> {
             System.out.println("PIPE_INIT_COMPLETE");
             System.out.flush();
         }
-
-    private void execute() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Stream<String> buffer = reader.lines();
-        load();
-        buffer.forEach((line) -> {
-            out.preparePipe();
-            INPUT input = in.processRequest(line);
-            OUTPUT output = implementation.apply(input);
-            out.writeToPipe(output);
-        });
-    }
-
     private Class<INPUT> getInputClass(AbstractAlgorithm<INPUT, OUTPUT> algoClass) {
         Method[] methods = algoClass.getClass().getMethods();
         Class<INPUT> bestGuess = null;
@@ -58,12 +45,24 @@ public class Handler<INPUT, OUTPUT> {
 
 
     public void serve() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Stream<String> buffer = reader.lines();
         try {
-            execute();
+            load();
         } catch (RuntimeException e) {
-            out.preparePipe();
             out.writeErrorToPipe(e);
         }
+
+        buffer.forEach((line) -> {
+            try {
+                out.preparePipe();
+                INPUT input = in.processRequest(line);
+                OUTPUT output = implementation.apply(input);
+                out.writeToPipe(output);
+            } catch (RuntimeException e) {
+                out.writeErrorToPipe(e);
+            }
+        });
     }
 
 }
