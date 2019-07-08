@@ -63,6 +63,7 @@ public class Handler<INPUT, OUTPUT> {
                 out.writeErrorToPipe(e);
             }
         });
+        buffer.close();
     }
 
 }

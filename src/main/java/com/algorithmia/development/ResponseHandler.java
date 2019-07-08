@@ -1,6 +1,8 @@
 package com.algorithmia.development;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 final class ResponseHandler {
 
@@ -23,6 +25,7 @@ final class ResponseHandler {
         PrintStream output = preparePipe();
         output.println(serialized);
         output.flush();
+        output.close();
     }
 
     <ERRORTYPE extends RuntimeException> void writeErrorToPipe(ERRORTYPE e) {
@@ -31,5 +34,6 @@ final class ResponseHandler {
         PrintStream output = preparePipe();
         output.println(serialized);
         output.flush();
+        output.close();
     }
 }
