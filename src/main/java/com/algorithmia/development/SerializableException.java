@@ -1,9 +1,8 @@
 package com.algorithmia.development;
 
 import com.google.gson.JsonObject;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 class SerializableException<T extends RuntimeException> {
     String message;
@@ -12,19 +11,19 @@ class SerializableException<T extends RuntimeException> {
 
     SerializableException(T e) {
 
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        String exceptionAsString = sw.toString();
+        String exceptionAsString = ExceptionUtils.getStackTrace(e);
         message = e.getMessage();
         stackTrace = exceptionAsString;
         errorType = e.getClass().toString();
     }
 
     String getJsonOutput() {
+        JsonObject inner = new JsonObject();
+        inner.addProperty("message", this.message);
+        inner.addProperty("stacktrace", this.stackTrace);
+        inner.addProperty("error_type", this.errorType);
         JsonObject node = new JsonObject();
-        node.addProperty("message", this.message);
-        node.addProperty("stack_trace", this.stackTrace);
-        node.addProperty("error_type", this.errorType);
+        node.add("error", inner);
         return node.toString();
     }
 }

@@ -8,19 +8,20 @@ import java.io.IOException;
 
 @FixMethodOrder()
 public class algorithmTests {
-    protected String FIFOPIPE = "/tmp/algoout";
+    protected String MockFifoPipe = "/tmp/algoout";
 
     protected JsonParser parser = new JsonParser();
 
+
     @Before
     public void IntializePipe() throws IOException, InterruptedException {
-        Process p = Runtime.getRuntime().exec("touch  " + FIFOPIPE);
+        Process p = Runtime.getRuntime().exec("touch " + MockFifoPipe);
         p.waitFor();
     }
 
     @After
     public void TeardownPipe() {
-        File pipe = new File(FIFOPIPE);
+        File pipe = new File(MockFifoPipe);
         System.setIn(System.in);
         pipe.delete();
     }
@@ -42,14 +43,6 @@ public class algorithmTests {
         Assert.assertEquals(result, binary.expectedResponse);
     }
 
-
-    @Test
-    public void algorithmFailureTest() throws Exception{
-        ExceptionExample algo = new ExceptionExample();
-        JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
-    }
-
     @Test
     public void ComplexTypeTest() throws Exception{
         ComplexType algo = new ComplexType();
@@ -58,24 +51,32 @@ public class algorithmTests {
     }
 
     @Test
+    public void MultipleRequestsTest() throws Exception{
+        MultipleRequests algo = new MultipleRequests();
+        String result = algo.run();
+        Assert.assertEquals(result, algo.expectedResponse);
+    }
+
+
+    @Test
+    public void algorithmFailureTest() throws Exception{
+        ExceptionExample algo = new ExceptionExample();
+        JsonObject result = algo.run();
+        Assert.assertEquals(result.get("error").getAsJsonObject().get("message"), algo.expectedResponse.get("message"));
+    }
+
+    @Test
     public void InputTypeFailureTest() throws Exception{
         InputTypeFailure algo = new InputTypeFailure();
         JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
+        Assert.assertEquals(result.get("error").getAsJsonObject().get("message"), algo.expectedResponse.get("message"));
     }
 
     @Test
     public void ReturnTypeFailureTest() throws Exception{
         ReturnTypeFailure algo = new ReturnTypeFailure();
         JsonObject result = algo.run();
-        Assert.assertEquals(result.get("message"), algo.expectedResponse.get("message"));
-    }
-
-    @Test
-    public void MultipleRequestsTest() throws Exception{
-        MultipleRequests algo = new MultipleRequests();
-        String result = algo.run();
-        Assert.assertEquals(result, algo.expectedResponse);
+        Assert.assertEquals(result.get("error").getAsJsonObject().get("message"), algo.expectedResponse.get("message"));
     }
 
 

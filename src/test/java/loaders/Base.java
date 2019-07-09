@@ -2,21 +2,16 @@ package loaders;
 
 import algorithms.BasicAbstractAlgorithm;
 import com.algorithmia.development.Handler;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileInputStream;
+import java.util.concurrent.CompletableFuture;
 
-public class  Base {
+public class  Base extends AbstractLoader{
     private BasicAbstractAlgorithm algo = new BasicAbstractAlgorithm();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
-    private JsonParser parser = new JsonParser();
-    private String FIFOPIPE = "/tmp/algoout";
 
     private JsonObject GenerateInput() {
         String inputObj = "james";
@@ -36,17 +31,14 @@ public class  Base {
         return expectedResponse;
     }
 
+
     public JsonObject run() throws Exception {
-
+        prepareInput(request);
         Handler handler = new Handler<>(algo);
-        String stringified = request.toString();
-        InputStream fakeIn = new ByteArrayInputStream(stringified.getBytes());
-        System.setIn(fakeIn);
+        FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
-
-        byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
+        byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
-        JsonElement actualResponse = parser.parse(rawData);
-        return actualResponse.getAsJsonObject();
+        return parser.parse(rawData).getAsJsonObject();
     }
 }

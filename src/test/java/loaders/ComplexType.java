@@ -4,22 +4,17 @@ import algorithms.LoadingAbstractAlgorithm;
 import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
 import structures.LoadingInput;
 
+import java.io.FileInputStream;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class ComplexType {
+public class ComplexType extends AbstractLoader{
     private LoadingAbstractAlgorithm algo = new LoadingAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
-    private JsonParser parser = new JsonParser();
-    private String FIFOPIPE = "/tmp/algoout";
 
     public JsonObject GenerateInput() {
         LoadingInput inputObj = new LoadingInput("james", 25);
@@ -41,16 +36,12 @@ public class ComplexType {
 
 
     public JsonObject run() throws Exception {
-
+        prepareInput(request);
         Handler handler = new Handler<>(algo);
-        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-
-        System.setIn(fakeIn);
+        FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
-
-        byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
+        byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
-        JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
-        return actualResponse;
+        return parser.parse(rawData).getAsJsonObject();
     }
 }

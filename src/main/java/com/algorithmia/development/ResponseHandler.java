@@ -8,12 +8,12 @@ final class ResponseHandler {
 
     private String FIFOPATH = "/tmp/algoout";
 
-    private PrintStream output;
 
-    ResponseHandler() {
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(this.FIFOPATH, true);
-            output = new PrintStream(fileOutputStream, true);
+
+    private void write(String serializedData){
+        try(PrintStream stream = new PrintStream(new FileOutputStream(this.FIFOPATH, true))){
+            stream.println(serializedData);
+            stream.flush();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -22,14 +22,12 @@ final class ResponseHandler {
     <OUTPUT> void writeToPipe(OUTPUT outputObject) {
         Response response = new Response(outputObject);
         String serialized = response.getJsonOutput();
-        this.output.println(serialized);
-        this.output.flush();
+        write(serialized);
     }
 
     <ERRORTYPE extends RuntimeException> void writeErrorToPipe(ERRORTYPE e) {
         SerializableException<ERRORTYPE> exception = new SerializableException<>(e);
         String serialized = exception.getJsonOutput();
-        this.output.println(serialized);
-        this.output.flush();
+        write(serialized);
     }
 }

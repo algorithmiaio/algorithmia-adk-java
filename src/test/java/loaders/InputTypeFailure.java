@@ -5,14 +5,12 @@ import com.algorithmia.development.Handler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
 import structures.MatrixInput;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileInputStream;
 
-public class InputTypeFailure {
+public class InputTypeFailure extends AbstractLoader{
     private LoadingAbstractAlgorithm algo = new LoadingAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
@@ -36,17 +34,13 @@ public class InputTypeFailure {
 
 
     public JsonObject run() throws Exception {
-
         Handler handler = new Handler<>(algo);
-        InputStream fakeIn = new ByteArrayInputStream(request.toString().getBytes());
-
-        System.setIn(fakeIn);
+        prepareInput(request);
+        FileInputStream inputStream = new FileInputStream(FIFOPIPE);
         handler.serve();
-
-        byte[] fifoBytes = Files.readAllBytes(Paths.get(FIFOPIPE));
+        byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
         return actualResponse;
-
     }
 }

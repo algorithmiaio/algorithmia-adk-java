@@ -35,7 +35,7 @@ class RequestHandler<ALGO_INPUT> {
         } catch (ClassCastException | IllegalStateException ex) {
             String className = inputClass.getName();
             String req = request.data.toString();
-            throw new RuntimeException("unable to parse reader into type " + className + " , with reader " + req);
+            throw new RuntimeException("unable to parse reader into type " + className + " , with reader " + req, ex);
         }
     }
 
