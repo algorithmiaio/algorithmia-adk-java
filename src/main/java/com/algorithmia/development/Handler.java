@@ -56,7 +56,6 @@ public class Handler<INPUT, OUTPUT> {
 
             buffer.forEach((line) -> {
                 try {
-                    out.preparePipe();
                     INPUT input = in.processRequest(line);
                     OUTPUT output = implementation.apply(input);
                     out.writeToPipe(output);
