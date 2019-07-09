@@ -1,6 +1,7 @@
 package com.algorithmia.development;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
@@ -45,25 +46,27 @@ public class Handler<INPUT, OUTPUT> {
 
 
     public void serve() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Stream<String> buffer = reader.lines();
-        try {
-            load();
-        } catch (RuntimeException e) {
-            out.writeErrorToPipe(e);
-        }
-
-        buffer.forEach((line) -> {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            Stream<String> buffer = reader.lines();
             try {
-                out.preparePipe();
-                INPUT input = in.processRequest(line);
-                OUTPUT output = implementation.apply(input);
-                out.writeToPipe(output);
+                load();
             } catch (RuntimeException e) {
                 out.writeErrorToPipe(e);
             }
-        });
-        buffer.close();
+
+            buffer.forEach((line) -> {
+                try {
+                    out.preparePipe();
+                    INPUT input = in.processRequest(line);
+                    OUTPUT output = implementation.apply(input);
+                    out.writeToPipe(output);
+                } catch (RuntimeException e) {
+                    out.writeErrorToPipe(e);
+                }
+            });
+        } catch (IOException ex){
+            throw new RuntimeException(ex);
+        }
     }
 
 }
