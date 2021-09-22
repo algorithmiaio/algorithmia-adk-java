@@ -49,7 +49,7 @@ class RequestHandler<ALGO_INPUT> {
                 ALGO_INPUT result = convertToType(request);
                 return result;
         } catch (JsonSyntaxException e) {
-            throw new RuntimeException("unable to parse the request" + line + "as valid json");
+            throw new RuntimeException(e);
         }
     }
 }
