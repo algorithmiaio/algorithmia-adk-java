@@ -18,7 +18,6 @@ public class  Base extends AbstractLoader{
         JsonObject object = new JsonObject();
         object.addProperty("content_type", "text");
         object.addProperty("data", inputObj);
-
         return object;
     }
 
