@@ -1,0 +1,33 @@
+name: Continous Deployment (Java Edition)
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-scala@v11
+        with:
+          java-version: adopt@1.11
+      - name: continous integration
+        env:
+          ALGORITHMIA_API_KEY: ${{ secrets.PROD_API_KEY }}
+        run : |
+          sbt test
+#      - name: prepare
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install wheel twine setuptools
+#      - name: Package and Upload
+#        env:
+#          ADK_VERSION: ${{github.event.release.tag_name }}
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{secrets.TWINE_TOKEN }}
+#        run: |
+#          python3 setup.py sdist bdist_wheel --universal
+#          twine upload -r pypi dist/*

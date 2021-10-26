@@ -1,0 +1,24 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+
+name: Continous Integration (Java Edition)
+
+on:
+  pull_request:
+
+jobs:
+  run_tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-scala@v11
+        with:
+          java-version: adopt@1.11
+      - name: continous integration
+        env:
+          ALGORITHMIA_API_KEY: ${{ secrets.PROD_API_KEY }}
+        run : |
+          sbt test
