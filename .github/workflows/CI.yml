@@ -8,15 +8,12 @@ on:
 
 jobs:
   run_tests:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout
         uses: actions/checkout@master
-      - uses: actions/setup-scala@v11
-        with:
-          java-version: adopt@1.11
+      - name: prep-environment
+        uses: olafurpg/setup-scala@v10
       - name: continous integration
         env:
           ALGORITHMIA_API_KEY: ${{ secrets.PROD_API_KEY }}
