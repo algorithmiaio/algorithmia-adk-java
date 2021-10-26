@@ -1,7 +1,7 @@
 package loaders;
 
 import algorithms.ThrowsExceptionAbstractAlgorithm;
-import com.algorithmia.development.Handler;
+import com.algorithmia.development.ADK;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -13,7 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class ExceptionExample extends AbstractLoader{
-    private ThrowsExceptionAbstractAlgorithm algo = new ThrowsExceptionAbstractAlgorithm();
+    private ThrowsExceptionAbstractAlgorithm algorithm = new ThrowsExceptionAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
@@ -35,9 +35,9 @@ public class ExceptionExample extends AbstractLoader{
 
     public JsonObject run() throws Exception {
         prepareInput(request);
-        Handler handler = new Handler<>(algo);
+        ADK algo = new ADK<>(algorithm);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
-        handler.serve();
+        algo.init();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();

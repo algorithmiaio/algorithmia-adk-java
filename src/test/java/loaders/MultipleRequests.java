@@ -1,7 +1,7 @@
 package loaders;
 
 import algorithms.BasicAbstractAlgorithm;
-import com.algorithmia.development.Handler;
+import com.algorithmia.development.ADK;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class MultipleRequests extends AbstractLoader{
-    private BasicAbstractAlgorithm algo = new BasicAbstractAlgorithm();
+    private BasicAbstractAlgorithm algorithm = new BasicAbstractAlgorithm();
     private JsonObject request = GenerateInput();
     private JsonObject response = GenerateOutput();
     public String expectedResponse;
@@ -49,7 +49,7 @@ public class MultipleRequests extends AbstractLoader{
 
 
     public String run() throws Exception {
-        Handler handler = new Handler<>(algo);
+        ADK algo = new ADK<>(algorithm);
         String stringified = request.toString();
         String duplicatedInput = DuplicateRequests(stringified, 5);
         this.expectedResponse = DuplicateRequests(this.response.toString(), 5);
@@ -57,7 +57,7 @@ public class MultipleRequests extends AbstractLoader{
 
         System.setIn(fakeIn);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
-        handler.serve();
+        algo.init();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
         return rawData;

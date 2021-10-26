@@ -1,4 +1,5 @@
 # Algorithm Development Kit (ADK), Java edition
+
 <!-- embedme examples/hello_world/src/Algorithm.java -->
 ```java
 package com.algorithmia.algorithm;
@@ -41,8 +42,8 @@ class Algorithm extends AbstractAlgorithm<Algorithm.ExampleInput, String>{
 
     public static void main(String[] args) {
         Algorithm algorithm = new Algorithm();
-        Handler algo = new Handler<>(algorithm);
-        algo.serve();
+        ADK algo = new ADK<>(algorithm);
+        algo.init();
     }
 }
 ```
@@ -128,8 +129,8 @@ class Algorithm extends AbstractAlgorithm<Algorithm.ExampleInput, String>{
 
     public static void main(String[] args) {
         Algorithm algorithm = new Algorithm();
-        Handler algo = new Handler<>(algorithm);
-        algo.serve();
+        ADK algo = new ADK<>(algorithm);
+        algo.init();
     }
 }
 ```
