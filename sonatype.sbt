@@ -8,7 +8,7 @@ publishTo := {
 
 publishMavenStyle := true
 
-credentials += Credentials(Path.userHome/ ".sbt" / ".credentials")
+//credentials += Credentials(Path.userHome/ ".sbt" / ".credentials")
 
 // Stuff sonatype wants
 pomExtra := (
