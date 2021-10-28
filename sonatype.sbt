@@ -8,7 +8,10 @@ publishTo := {
 
 publishMavenStyle := true
 
-//credentials += Credentials(Path.userHome/ ".sbt" / ".credentials")
+credentials += Credentials("Sonatype Nexus Repository Manager",
+  "oss.sonatype.org",
+  scala.sys.env("SONATYPE_USERNAME"),
+  scala.sys.env("SONATYPE_PASSWORD"))
 
 // Stuff sonatype wants
 pomExtra := (

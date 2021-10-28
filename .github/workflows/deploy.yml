@@ -1,8 +1,9 @@
 name: Continous Deployment (Java Edition)
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [ master, main ]
+    tags: [ "*" ]
 
 jobs:
   release:
@@ -17,14 +18,10 @@ jobs:
       - name: continous integration
         run : |
           sbt test
-      - name: prepare
-        run: |
-          sbt compile
-      - name: Package and Upload
+      - uses: olafurpg/setup-scala@v13
+      - run: sbt ci-release
         env:
-          ADK_VERSION: ${{github.event.release.tag_name }}
-          SONATYPE_USERNAME: ${{secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD }}
-        run: |
-          sbt publishSigned
-          sbt sonatypeRelease
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}

@@ -3,9 +3,6 @@ name := "algorithm-handler"
 
 organization := "com.algorithmia"
 
-version := "2.0.1"
-
-
 autoScalaLibrary := false
 
 // More compiler warnings
@@ -28,3 +25,16 @@ libraryDependencies ++= Seq(
 crossPaths := false
 
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-av")
+inThisBuild(List(
+  organization := "com.github.sbt",
+  homepage := Some(url("https://github.com/sbt/sbt-ci-release")),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "olafurpg",
+      "Ólafur Páll Geirsson",
+      "olafurpg@gmail.com",
+      url("https://geirsson.com")
+    )
+  )
+))
