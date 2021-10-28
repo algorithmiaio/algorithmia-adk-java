@@ -30,7 +30,7 @@ Algorithm development does change with this introduction:
   ```java
   public static void main(String[] args) {
   Algorithm algorithm = new Algorithm();
-  Handler algo = new Handler<>(algorithm);
+  ADK algo = new ADK<>(algorithm);
   algo.init();
   }
   ```
