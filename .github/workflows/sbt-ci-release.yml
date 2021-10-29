@@ -7,16 +7,11 @@ on:
 
 jobs:
   release:
-
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - name: checkout
-        uses: actions/checkout@master
-      - name: prep-environment
-        uses: olafurpg/setup-scala@v10
-      - name: continous integration
-        run : |
-          sbt test
+      - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - uses: olafurpg/setup-scala@v13
       - run: sbt ci-release
         env:
