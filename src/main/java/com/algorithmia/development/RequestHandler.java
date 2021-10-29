@@ -32,10 +32,10 @@ class RequestHandler<ALGO_INPUT> {
             } else {
                 return gson.fromJson(request.data, inputClass);
             }
-        } catch (ClassCastException | IllegalStateException ex) {
+        } catch (Throwable ex) {
             String className = inputClass.getName();
             String req = request.data.toString();
-            throw new RuntimeException("unable to parse reader into type " + className + " , with reader " + req, ex);
+            throw new RuntimeException("unable to parse data: " + req + " as expected type: " + className, ex);
         }
     }
 
@@ -49,7 +49,7 @@ class RequestHandler<ALGO_INPUT> {
                 ALGO_INPUT result = convertToType(request);
                 return result;
         } catch (JsonSyntaxException e) {
-            throw new RuntimeException("unable to parse the request" + line + "as valid json");
+            throw new RuntimeException(e);
         }
     }
 }
