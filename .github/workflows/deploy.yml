@@ -1,9 +1,9 @@
 name: Continous Deployment (Java Edition)
 
 on:
-  push:
-    branches: [ master, main ]
-    tags: [ "*" ]
+  release:
+    types: [published]
+  
 
 jobs:
   release:
