@@ -28,7 +28,7 @@ public class InputTypeFailure extends AbstractLoader{
 
     public JsonObject GenerateOutput() {
         JsonObject expectedResponse = new JsonObject();
-        expectedResponse.addProperty("message", "Missing required field in JSON input: name");
+        expectedResponse.addProperty("message", "unable to parse data: {\\\"matrix\\\":{\\\"top\\\":[0.25,0.15],\\\"bottom\\\":[0.12,-0.15],\\\"width\\\":2}} as expected type: structures.LoadingInput");
         return expectedResponse;
     }
 
