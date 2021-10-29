@@ -43,7 +43,7 @@ class Algorithm extends AbstractAlgorithm<Algorithm.ExampleInput, String>{
     public static void main(String[] args) {
         Algorithm algorithm = new Algorithm();
         ADK algo = new ADK<>(algorithm);
-        algo.init();
+        algo.init("world!");
     }
 }
 ```
@@ -130,7 +130,7 @@ class Algorithm extends AbstractAlgorithm<Algorithm.ExampleInput, String>{
     public static void main(String[] args) {
         Algorithm algorithm = new Algorithm();
         ADK algo = new ADK<>(algorithm);
-        algo.init();
+        algo.init("world!");
     }
 }
 ```
