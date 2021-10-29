@@ -1,7 +1,7 @@
 package loaders;
 
 import algorithms.BasicAbstractAlgorithm;
-import com.algorithmia.development.Handler;
+import com.algorithmia.development.ADK;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.FileInputStream;
 
 public class InputType extends AbstractLoader{
-    private BasicAbstractAlgorithm algo = new BasicAbstractAlgorithm();
+    private BasicAbstractAlgorithm algorithm = new BasicAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
@@ -34,10 +34,10 @@ public class InputType extends AbstractLoader{
     }
 
     public JsonObject run() throws Exception {
-        Handler handler = new Handler<>(algo);
+        ADK algo = new ADK<>(algorithm);
         prepareInput(request);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
-        handler.serve();
+        algo.init();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();

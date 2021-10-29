@@ -12,7 +12,8 @@ public class Handler<INPUT, OUTPUT> {
 
     private AbstractAlgorithm<INPUT, OUTPUT> implementation;
     private RequestHandler<INPUT> in;
-    private ResponseHandler out = new ResponseHandler();
+    private String FIFO_PATH = "/tmp/algoout";
+    private ResponseHandler out = new ResponseHandler(FIFO_PATH);
 
 
     public Handler(AbstractAlgorithm<INPUT, OUTPUT> implementation) {
@@ -51,16 +52,16 @@ public class Handler<INPUT, OUTPUT> {
             try {
                 load();
             } catch (RuntimeException e) {
-                out.writeErrorToPipe(e);
+                out.writeErrorToPipe(e, false);
             }
 
             buffer.forEach((line) -> {
                 try {
                     INPUT input = in.processRequest(line);
                     OUTPUT output = implementation.apply(input);
-                    out.writeToPipe(output);
+                    out.writeToPipe(output, false);
                 } catch (RuntimeException e) {
-                    out.writeErrorToPipe(e);
+                    out.writeErrorToPipe(e, false);
                 }
             });
         } catch (IOException ex){

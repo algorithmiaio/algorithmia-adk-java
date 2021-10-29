@@ -1,7 +1,7 @@
 package loaders;
 
 import algorithms.LoadingAbstractAlgorithm;
-import com.algorithmia.development.Handler;
+import com.algorithmia.development.ADK;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,7 +11,7 @@ import structures.MatrixInput;
 import java.io.FileInputStream;
 
 public class InputTypeFailure extends AbstractLoader{
-    private LoadingAbstractAlgorithm algo = new LoadingAbstractAlgorithm();
+    private LoadingAbstractAlgorithm algorithm = new LoadingAbstractAlgorithm();
     private Gson gson = new Gson();
     private JsonObject request = GenerateInput();
     public JsonObject expectedResponse = GenerateOutput();
@@ -34,10 +34,10 @@ public class InputTypeFailure extends AbstractLoader{
 
 
     public JsonObject run() throws Exception {
-        Handler handler = new Handler<>(algo);
+        ADK algo = new ADK<>(algorithm);
         prepareInput(request);
         FileInputStream inputStream = new FileInputStream(FIFOPIPE);
-        handler.serve();
+        algo.init();
         byte[] fifoBytes = IOUtils.toByteArray(inputStream);
         String rawData = new String(fifoBytes);
         JsonObject actualResponse = parser.parse(rawData).getAsJsonObject();
