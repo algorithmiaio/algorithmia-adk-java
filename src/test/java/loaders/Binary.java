@@ -33,12 +33,12 @@ public class Binary extends AbstractLoader{
     }
 
     public JsonObject GenerateOutput() {
-        String outputObj = "This is a test";
+        byte[] outputObj = ("This is a test").getBytes();
         JsonObject expectedResponse = new JsonObject();
         JsonObject metadata = new JsonObject();
-        metadata.addProperty("content_type", "text");
+        metadata.addProperty("content_type", "binary");
         expectedResponse.add("metadata", metadata);
-        expectedResponse.addProperty("result", outputObj);
+        expectedResponse.add("result", gson.toJsonTree(Base64.encodeBase64String(outputObj)));
         return expectedResponse;
     }
 
