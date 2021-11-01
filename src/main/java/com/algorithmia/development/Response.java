@@ -20,7 +20,7 @@ class Response {
             } else if (data.getClass() == String.class) {
                 contentType = "text";
                 jsonData = gson.toJsonTree(data);
-            } else if (data.getClass() == byte.class) {
+            } else if (data.getClass() == byte[].class) {
                 contentType = "binary";
                 jsonData = gson.toJsonTree(Base64.encodeBase64String((byte[]) data));
 
@@ -28,7 +28,6 @@ class Response {
                 contentType = "json";
                 jsonData = gson.toJsonTree(data);
             }
-
             metaData = new MetaData(contentType);
             result = jsonData;
         } catch (StackOverflowError | java.lang.IllegalArgumentException e) {
@@ -42,6 +41,7 @@ class Response {
         metaData.addProperty("content_type", this.metaData.content_type);
         node.add("metadata", metaData);
         node.add("result", gson.toJsonTree(this.result));
+        System.out.println(node.toString());
         return node.toString();
     }
 
